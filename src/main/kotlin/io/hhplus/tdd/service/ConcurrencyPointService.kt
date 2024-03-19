@@ -25,6 +25,8 @@ class ConcurrencyPointService(
     private val retryDelayMillis = 100L
 
     fun process(userId: Long, amount: Long, type: TransactionType): UserPoint {
+        validateUserId(userId)
+        validateAmount(amount)
         // userId 에 해당하는 lock 을 가져옵니다.
         val userLock = queue.computeIfAbsent(userId) { ReentrantLock() }
 
@@ -61,5 +63,17 @@ class ConcurrencyPointService(
         }
 
         return userPoint
+    }
+
+    private fun validateUserId(userId: Long) {
+        if (userId < 1) {
+            throw IllegalArgumentException("userId 는 1 이상이어야 합니다.")
+        }
+    }
+
+    private fun validateAmount(amount: Long) {
+        if (amount < 1) {
+            throw IllegalArgumentException("amount 는 1 이상이어야 합니다.")
+        }
     }
 }

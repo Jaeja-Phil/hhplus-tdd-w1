@@ -25,6 +25,32 @@ class ConcurrencyPointServiceTest {
     }
 
     @Test
+    fun `process - userId가 1보다 작을 경우 IllegalArgumentException을 발생시키는지`() {
+        // given
+        val userId = 0L
+        val amount = 100L
+        val type = TransactionType.CHARGE
+
+        // then
+        assertThrows(IllegalArgumentException::class.java) {
+            concurrencyPointService.process(userId, amount, type)
+        }
+    }
+
+    @Test
+    fun `process - amount가 0보다 작을 경우 IllegalArgumentException을 발생시키는지`() {
+        // given
+        val userId = 1L
+        val amount = -1L
+        val type = TransactionType.CHARGE
+
+        // then
+        assertThrows(IllegalArgumentException::class.java) {
+            concurrencyPointService.process(userId, amount, type)
+        }
+    }
+
+    @Test
     fun `process - 포인트 추가를 정상적으로 처리하는지`() {
         // given
         val userId = 1L
