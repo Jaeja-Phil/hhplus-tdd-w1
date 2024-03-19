@@ -51,46 +51,46 @@ class UserPointServiceTest {
     }
 
     @Test
-    fun `addUserPoint - 존재하지 않는 유저의 포인트를 추가할 시 해당 UserPoint를 반환하는지`() {
+    fun `addPoint - 존재하지 않는 유저의 포인트를 추가할 시 해당 UserPoint를 반환하는지`() {
         // given
         val userId = 1L
         val amount = 100L
 
         // when
-        val userPoint = userPointService.addUserPoint(userId, amount)
+        val userPoint = userPointService.addPoint(userId, amount)
 
         // then
         checkUserPoint(userPoint, userId, amount)
     }
 
     @Test
-    fun `addUserPoint - 존재하는 유저의 포인트를 추가할 시 해당 UserPoint를 반환하는지`() {
+    fun `addPoint - 존재하는 유저의 포인트를 추가할 시 해당 UserPoint를 반환하는지`() {
         // given
         val userId = 1L
         val amount = 100L
         userPointTable.insertOrUpdate(userId, amount)
 
         // when
-        val userPoint = userPointService.addUserPoint(userId, amount)
+        val userPoint = userPointService.addPoint(userId, amount)
 
         // then
         checkUserPoint(userPoint, userId, amount * 2)
     }
 
     @Test
-    fun `removeUserPoint - 존재하지 않는 유저의 포인트를 제거할 시 에러를 반환하는지`() {
+    fun `usePoint - 존재하지 않는 유저의 포인트를 제거할 시 에러를 반환하는지`() {
         // given
         val userId = 1L
         val amount = 100L
 
         // when & then
         assertThrows(NotEnoughPointException::class.java) {
-            userPointService.removeUserPoint(userId, amount)
+            userPointService.usePoint(userId, amount)
         }
     }
 
     @Test
-    fun `removeUserPoint - 존재하는 유저의 현재 포인트보다 많은 포인트를 제거할 시 에러를 반환하는지`() {
+    fun `usePoint - 존재하는 유저의 현재 포인트보다 많은 포인트를 제거할 시 에러를 반환하는지`() {
         // given
         val userId = 1L
         val amount = 100L
@@ -98,19 +98,19 @@ class UserPointServiceTest {
 
         // when & then
         assertThrows(NotEnoughPointException::class.java) {
-            userPointService.removeUserPoint(userId, amount + 1)
+            userPointService.usePoint(userId, amount + 1)
         }
     }
 
     @Test
-    fun `removeUserPoint - 존재하는 유저의 포인트를 알맞게 차감한 UserPoint를 반환하는지`() {
+    fun `usePoint - 존재하는 유저의 포인트를 알맞게 차감한 UserPoint를 반환하는지`() {
         // given
         val userId = 1L
         val amount = 100L
         userPointTable.insertOrUpdate(userId, amount)
 
         // when
-        val userPoint = userPointService.removeUserPoint(userId, amount)
+        val userPoint = userPointService.usePoint(userId, amount)
 
         // then
         checkUserPoint(userPoint, userId, 0)
@@ -125,7 +125,7 @@ class UserPointServiceTest {
         "200, 50, 150",
         "100, 0, 100"
     )
-    fun `removeUserPoint - 존재하는 유저의 포인트를 알맞게 차감한 UserPoint를 반환하는지 - parameterized test`(
+    fun `usePoint - 존재하는 유저의 포인트를 알맞게 차감한 UserPoint를 반환하는지 - parameterized test`(
         initialAmount: Long,
         removeAmount: Long,
         leftAmount: Long
@@ -135,7 +135,7 @@ class UserPointServiceTest {
         userPointTable.insertOrUpdate(userId, initialAmount)
 
         // when
-        val userPoint = userPointService.removeUserPoint(userId, removeAmount)
+        val userPoint = userPointService.usePoint(userId, removeAmount)
 
         // then
         checkUserPoint(userPoint, userId, leftAmount)
