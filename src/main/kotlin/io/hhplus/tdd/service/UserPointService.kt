@@ -13,14 +13,14 @@ class UserPointService(
         return userPointTable.selectById(userId)
     }
 
-    fun addUserPoint(userId: Long, amount: Long): UserPoint {
+    fun addPoint(userId: Long, amount: Long): UserPoint {
         // 유저의 현재 포인트를 조회하고 요청한 값 만큼의 현재포인트에 더한다.
         return userPointTable.selectById(userId).let {
             userPointTable.insertOrUpdate(userId, it.point + amount)
         }
     }
 
-    fun removeUserPoint(userId: Long, amount: Long): UserPoint {
+    fun usePoint(userId: Long, amount: Long): UserPoint {
         // 유저의 현재 포인트를 조회하고 요청한 값 만큼의 현재포인트를 뺀다.
         // 만약 현재 포인트가 요청한 값보다 적다면 NotEnoughPointException을 발생시킨다.
         return userPointTable.selectById(userId).let {
