@@ -4,7 +4,9 @@ import io.hhplus.tdd.database.PointHistoryTable
 import io.hhplus.tdd.point.PointHistory
 import io.hhplus.tdd.point.TransactionType
 import io.hhplus.tdd.point.UserPoint
+import org.springframework.stereotype.Service
 
+@Service
 class PointHistoryService(
     private val pointHistoryTable: PointHistoryTable,
 ) {
