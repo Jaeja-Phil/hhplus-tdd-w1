@@ -22,8 +22,6 @@ class PointControllerTest {
     @Autowired
     private lateinit var pointController: PointController
 
-    @Autowired
-    private lateinit var userPointService: UserPointService
 
     @Autowired
     private lateinit var pointHistoryService: PointHistoryService
@@ -202,8 +200,8 @@ class PointControllerTest {
         val chargeType = TransactionType.CHARGE
         val useType = TransactionType.USE
         userPointTable.insertOrUpdate(userId, amount)
-        pointHistoryService.addChargePointHistory(userPointService.getUserPoint(userId), chargeAmount)
-        pointHistoryService.addUsePointHistory(userPointService.getUserPoint(userId), useAmount)
+        pointHistoryService.addChargePointHistory(userId, chargeAmount)
+        pointHistoryService.addUsePointHistory(userId, useAmount)
         val url = "/point/$userId/histories"
 
         // when

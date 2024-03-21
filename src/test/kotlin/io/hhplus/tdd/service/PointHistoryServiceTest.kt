@@ -34,10 +34,9 @@ class PointHistoryServiceTest {
         // given
         val userId = 1L
         val amount = 100L
-        val userPoint = UserPoint(userId, amount, 0L)
 
         // when
-        val pointHistory = pointHistoryService.addChargePointHistory(userPoint, amount)
+        val pointHistory = pointHistoryService.addChargePointHistory(userId, amount)
 
         // then
         checkPointHistory(userId, amount, TransactionType.CHARGE, pointHistory)
@@ -48,10 +47,9 @@ class PointHistoryServiceTest {
         // given
         val userId = 1L
         val amount = 100L
-        val userPoint = UserPoint(userId, 0L, 0L)
 
         // when
-        val pointHistory = pointHistoryService.addUsePointHistory(userPoint, amount)
+        val pointHistory = pointHistoryService.addUsePointHistory(userId, amount)
 
         // then
         checkPointHistory(userId, amount, TransactionType.USE, pointHistory)
@@ -62,9 +60,8 @@ class PointHistoryServiceTest {
         // given
         val userId = 1L
         val amount = 100L
-        val userPoint = UserPoint(userId, amount, 0L)
-        pointHistoryService.addChargePointHistory(userPoint, amount)
-        pointHistoryService.addUsePointHistory(userPoint, amount)
+        pointHistoryService.addChargePointHistory(userId, amount)
+        pointHistoryService.addUsePointHistory(userId, amount)
 
         // when
         val pointHistories = pointHistoryService.getPointHistories(userId)
