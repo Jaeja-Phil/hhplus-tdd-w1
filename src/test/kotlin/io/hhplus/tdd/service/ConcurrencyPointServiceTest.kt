@@ -20,7 +20,8 @@ class ConcurrencyPointServiceTest {
         pointHistoryTable = PointHistoryTable()
         concurrencyPointService = ConcurrencyPointService(
             PointHistoryService(pointHistoryTable),
-            UserPointService(userPointTable)
+            UserPointService(userPointTable),
+            LockService()
         )
     }
 

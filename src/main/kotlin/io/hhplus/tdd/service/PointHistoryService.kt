@@ -10,18 +10,18 @@ import org.springframework.stereotype.Service
 class PointHistoryService(
     private val pointHistoryTable: PointHistoryTable,
 ) {
-    fun addChargePointHistory(userPoint: UserPoint, amount: Long): PointHistory {
+    fun addChargePointHistory(userId: Long, amount: Long): PointHistory {
         return pointHistoryTable.insert(
-            userPoint.id,
+            userId,
             amount,
             TransactionType.CHARGE,
             System.currentTimeMillis()
         )
     }
 
-    fun addUsePointHistory(userPoint: UserPoint, amount: Long): PointHistory {
+    fun addUsePointHistory(userId: Long, amount: Long): PointHistory {
         return pointHistoryTable.insert(
-            userPoint.id,
+            userId,
             amount,
             TransactionType.USE,
             System.currentTimeMillis()
